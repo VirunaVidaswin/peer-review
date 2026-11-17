@@ -155,9 +155,9 @@ def main():
             3. **Fill the Form:**
             - **Failure Occurred?** → `Yes`, `No`, or `Not sure`.
             - **Failure Type:**
-                - **FM-2.3 (Goal Drift):** Agent wanders off-topic or loses track of the core goal.
-                - **FM-2.4 (Ungrounded / Hallucination):** Agent invents false facts, incorrect data, or hallucinated outputs.
-                - **FM-2.6 (Premature Termination):** Agent stops early or gives an incomplete answer before finishing the task.
+                - **FM-2.3 — Task Derailment:** An agent veers off-topic, forgets the user's primary goal, or pursues an unrequested task.
+                - **FM-2.4 — Information Withholding:** An agent has necessary data, rules, or context but fails to pass it to the next agent, causing downstream errors.
+                - **FM-2.6 — Reasoning–Action Mismatch:** An agent's stated thought/reasoning contradicts the actual action, tool call, or code it produces.
                 - **None / Not sure:** If no failure occurred or you are uncertain.
             - **Onset Turn:** The first turn number where the error became visible.
             - **Notes (Optional):** 1–2 brief sentences on why you chose that label.
