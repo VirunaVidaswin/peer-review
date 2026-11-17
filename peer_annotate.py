@@ -213,6 +213,25 @@ def main():
         if st.session_state.last_saved:
             st.markdown(f'<span class="save-info">Last local save: {st.session_state.last_saved}</span>', unsafe_allow_html=True)
 
+        
+        # ── Reset All Changes ──────────────────────────────────────────────
+        st.markdown("---")
+        with st.expander("⚠️ Danger Zone (Reset)"):
+            st.warning("This will permanently delete all saved annotations from peer_answers.csv.")
+            confirm_reset = st.checkbox("I understand this will delete all progress")
+            if st.button("🗑️ Reset All Changes", type="secondary", disabled=not confirm_reset):
+                # 1. Clear/delete the CSV file
+                if ANSWERS_CSV.exists():
+                    ANSWERS_CSV.unlink()  # Deletes peer_answers.csv
+                
+                # 2. Reset session state
+                st.session_state.current_idx = 0
+                st.session_state.last_saved = None
+                
+                # 3. Reload app
+                st.success("All annotations have been reset!")
+                st.rerun()
+
     # ── Guard ──────────────────────────────────────────────────────────────────
     if not filtered_indices:
         st.info("No traces match current filter.")
@@ -308,13 +327,15 @@ def main():
         new_note = st.text_area("Notes (optional)", value=ex_note, height=90,
                                  placeholder="Brief description of what you observed…")
 
-        btn_col1, btn_col2, btn_col3 = st.columns(3)
+        btn_col1, btn_col2, btn_col3, btn_col4 = st.columns(4)
         with btn_col1:
             prev_btn = st.form_submit_button("⬅ Previous", use_container_width=True)
         with btn_col2:
             save_btn = st.form_submit_button("💾 Save & next", use_container_width=True, type="primary")
         with btn_col3:
             skip_btn = st.form_submit_button("⏭ Skip →", use_container_width=True)
+        with btn_col4:
+            clear_btn = st.form_submit_button("🔄 Reset Trace", use_container_width=True)
 
     # ── Form actions ──────────────────────────────────────────────────────────
     fi = filtered_indices.index(idx)
@@ -341,6 +362,12 @@ def main():
     if prev_btn:
         if fi > 0:
             st.session_state.current_idx = filtered_indices[fi - 1]
+        st.rerun()
+    if clear_btn:
+        if code in answers_map:
+            del answers_map[code]
+            save_answers(answers_map)
+        st.toast(f"Cleared annotation for {code}")
         st.rerun()
 
 
