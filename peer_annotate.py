@@ -140,6 +140,36 @@ def main():
     st.markdown(f"**Progress: {done_count} / {len(traces)} complete**")
     st.progress(done_count / max(len(traces), 1))
 
+
+    # ── Instructions / README ─────────────────────────────────────────────────
+    with st.expander("📖 **How to Annotate (Quick Guide & Readme)**", expanded=False):
+        st.markdown("""
+            ### 🎯 Your Task
+            Review each conversation between agents and determine whether a collaboration failure occurred.
+
+            ---
+
+            ### 📋 Steps to Follow
+            1. **Read the Task Goal:** Check what the agents were supposed to accomplish.
+            2. **Read the Turns:** Follow the agent exchange turn by turn.
+            3. **Fill the Form:**
+            - **Failure Occurred?** → `Yes`, `No`, or `Not sure`.
+            - **Failure Type:**
+                - **FM-2.3 (Goal Drift):** Agent wanders off-topic or loses track of the core goal.
+                - **FM-2.4 (Ungrounded / Hallucination):** Agent invents false facts, incorrect data, or hallucinated outputs.
+                - **FM-2.6 (Premature Termination):** Agent stops early or gives an incomplete answer before finishing the task.
+                - **None / Not sure:** If no failure occurred or you are uncertain.
+            - **Onset Turn:** The first turn number where the error became visible.
+            - **Notes (Optional):** 1–2 brief sentences on why you chose that label.
+            4. **Save:** Click **💾 Save & next** to proceed.
+
+            ---
+
+            ### 💡 Tips & Export
+            - **Blinded Review:** Please do not discuss traces with the author until finished.
+            - **Export Work:** When done (or before closing your browser), click **📥 Download answers (.csv)** in the sidebar to download your final file.
+                    """)
+
     # ── Sidebar ───────────────────────────────────────────────────────────────
     with st.sidebar:
         st.markdown("## 📝 Peer Annotator")
